@@ -1,5 +1,3 @@
-import React from "react";
-
 function Table() {
   return (
     <section className="grid h-screen w-full place-items-center bg-gray-300">
