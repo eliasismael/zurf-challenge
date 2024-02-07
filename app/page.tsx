@@ -1,11 +1,12 @@
 import Balance from "./components/Balance";
 import CallCoinsMarkets from "./components/Buttons/CallCoinsMarkets";
+import { Header } from "./components/Header/Header";
 import Table from "./components/Table/Table";
 
 export default function Home() {
   return (
     <>
-      <w3m-button />
+      <Header />
       <Table />
       <CallCoinsMarkets />
       <Balance />

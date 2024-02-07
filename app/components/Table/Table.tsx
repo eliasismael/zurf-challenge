@@ -1,6 +1,6 @@
 function Table() {
   return (
-    <section className="grid h-screen w-full place-items-center bg-gray-300">
+    <section className="grid h-screen w-full place-items-center ">
       <div className="flex w-[90%] flex-col gap-4 rounded-xl bg-gray-100 p-2">
         <header className="flex h-12 w-full items-center justify-between rounded-md bg-white p-2 shadow-md shadow-gray-300">
           <h1 className="text-xl font-semibold">Activos</h1>

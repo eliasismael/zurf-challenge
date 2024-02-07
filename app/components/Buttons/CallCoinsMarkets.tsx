@@ -4,7 +4,7 @@ import { useFetch } from "@/app/hooks/useFetch";
 import { useState } from "react";
 
 function CallCoinsMarkets() {
-  const { getAllCoins, getCoin } = useFetch();
+  const { getAllCoins, getCoinPriceInUsd } = useFetch();
 
   const ammountOfZRF = useBalance({ token: "ZRF" });
   const ammountOfUSDT = useBalance({ token: "USDT" });
@@ -17,9 +17,9 @@ function CallCoinsMarkets() {
   const [relation, setRelation] = useState("");
 
   const onClickHandle = async () => {
-    const tether = await getCoin("tether");
-    const bitcoin = await getCoin("bitcoin");
-    const zurf = await getCoin("zurf");
+    const tether = await getCoinPriceInUsd("tether");
+    const bitcoin = await getCoinPriceInUsd("bitcoin");
+    const zurf = await getCoinPriceInUsd("zurf");
 
     setBtcPriceInUsd(bitcoin);
     setTetherPriceInUsd(tether);
@@ -27,10 +27,9 @@ function CallCoinsMarkets() {
   };
 
   const calcRelation = () => {
-    const ammountOfUSDT = 0.0029;
-
     const relation: any =
-      (ammountOfUSDT * Number(tetherPriceInUsd)) / Number(zurfPriceInUsd);
+      (Number(ammountOfUSDT) * Number(tetherPriceInUsd)) /
+      Number(zurfPriceInUsd);
     setRelation(relation);
   };
 

@@ -8,7 +8,7 @@ export const useFetch = () => {
       .catch((error) => console.log("Eroor al obtener datos: ", error));
   };
 
-  const getCoin = async (id: string) => {
+  const getCoinPriceInUsd = async (id: string) => {
     const coin = await fetch(API_URL + `/coins/${id}`).then((response) =>
       response.json()
     );
@@ -16,5 +16,5 @@ export const useFetch = () => {
     return coin.market_data.current_price.usd.toFixed(8);
   };
 
-  return { getAllCoins, getCoin };
+  return { getAllCoins, getCoinPriceInUsd };
 };
