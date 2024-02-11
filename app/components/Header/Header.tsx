@@ -1,12 +1,31 @@
 "use client";
 import { useDarkMode } from "@/app/hooks/useDarkMode";
+import mainLogo from "../../../public/main-logo.jpg";
+import menu from "../../../public/icons/menu.png";
+import Image from "next/image";
+import Link from "next/link";
 
 export const Header = () => {
   const [colorTheme, setTheme] = useDarkMode();
 
   return (
-    <header className="sticky top-0 z-50 flex items-center w-full h-20 bg-blue-300 dark:bg-gradient-to-r from-gray-800 via-gray-700 to-gray-900 text-main p-2 px-6 border-b-2 border-main">
-      <h1 className="text-2xl font-semibold">Zurf Social Challenge</h1>
+    <header className="sticky top-0 z-50 flex items-center gap-4 w-full h-20 bg-gradient-to-r from-white from-25% via-main/20 via-90% to-white dark:bg-gradient-to-r dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 dark:text-main text-black p-2 px-6 border-b-2 border-main">
+      <Link href={"./"}>
+        <Image
+          src={mainLogo}
+          alt="Zurf"
+          width={50}
+          height={50}
+          className="rounded-full"
+        />
+      </Link>
+
+      <h1 className="text-2xl font-medium hidden sm:flex">
+        Zurf Social Challenge
+      </h1>
+      <h2 className="opacity-80 text-gray-500 text-xl text-center">
+        Made by Elías Pereyra
+      </h2>
 
       {/* Buttons */}
       <div className="ml-auto">
@@ -17,7 +36,7 @@ export const Header = () => {
         <svg
           onClick={() => setTheme("light")}
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-6 w-6 cursor-pointer"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -33,7 +52,7 @@ export const Header = () => {
         <svg
           onClick={() => setTheme("dark")}
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-6 w-6 cursor-pointer"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -46,6 +65,14 @@ export const Header = () => {
           />
         </svg>
       )}
+
+      <Image
+        src={menu}
+        alt="menu"
+        width={25}
+        height={25}
+        className="rounded-ful text-white dark:text-white"
+      />
     </header>
   );
 };
