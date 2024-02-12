@@ -1,3 +1,4 @@
+"use client";
 import { ReactNode } from "react";
 
 interface ItemProps {
@@ -8,9 +9,14 @@ interface ItemProps {
 }
 
 export const Item: React.FC<ItemProps> = (props) => (
-  <li className={props.liStyle}>
-    <span className="font-medium text-xl mr-1">{props.item}</span>
-    <span className="text-sm font-bold">{props.value}</span>
+  <li
+    className={
+      props.liStyle ||
+      "w-full flex items-center border-b border-gray-300 dark:border-gray-500 h-8"
+    }
+  >
+    <span className="font-medium text-md">{props.item}</span>
+    <span className="text-sm font-light ml-auto mr-0">{props.value}</span>
 
     {props.addiotionalElements}
   </li>

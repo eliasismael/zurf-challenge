@@ -16,41 +16,36 @@ interface UseBalanceArgs {
   token: "ZRF" | "USDT";
 }
 
-type ExtProvider = ethers.providers.ExternalProvider;
+type ExternalProv = ethers.providers.ExternalProvider;
 
-export const useBalance = (args: UseBalanceArgs) => {
-  const { token } = args;
-
+export const useBalance = ({ token }: UseBalanceArgs) => {
   const { address: userAddres, chainId, isConnected } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
   const [tokenBalance, setTokenbalance] = useState("");
 
-  const getBalance = async () => {
-    if (!isConnected) throw Error("User disconnected");
-    if (chainId !== POLYGON_CHAIN_ID) throw Error("Switch to polygon network");
+  const { Contract, providers, utils } = ethers;
+  const W3P = providers.Web3Provider;
 
-    const W3P = ethers.providers.Web3Provider;
+  const contractData = {
+    address: token === "ZRF" ? ZRF_TOKEN_ADDRESS : USDT_TOKEN_ADDRESS,
+    abi: token === "ZRF" ? ZRF_CONTRACT_ABI : USDT_CONTRACT_ABI,
+  };
+  const { address, abi } = contractData;
+
+  const getBalance = async () => {
+    if (!isConnected) throw new Error("User disconnected");
+    if (chainId !== POLYGON_CHAIN_ID)
+      throw new Error("Switch to polygon network");
 
     try {
-      const ethersProvider = new W3P(walletProvider as ExtProvider);
+      const ethersProvider = new W3P(walletProvider as ExternalProv);
       const signer = ethersProvider.getSigner();
 
-      const contractData = {
-        address: token === "ZRF" ? ZRF_TOKEN_ADDRESS : USDT_TOKEN_ADDRESS,
-        abi: token === "ZRF" ? ZRF_CONTRACT_ABI : USDT_CONTRACT_ABI,
-      };
+      const tokenContract = new Contract(address, abi, signer);
+      const tokenBalance = await tokenContract.balanceOf(userAddres);
+      const formatedBalance = utils.formatUnits(tokenBalance, 18);
 
-      const { address, abi } = contractData;
-
-      const tokenContract = new ethers.Contract(address, abi, signer);
-      const tokenBalance = await tokenContract.balanceOf(String(userAddres));
-      const formatedBalance = ethers.utils.formatUnits(tokenBalance, 18);
-
-      if (formatedBalance !== undefined) {
-        setTokenbalance(formatedBalance);
-      } else {
-        setTokenbalance("Balance not obtained");
-      }
+      setTokenbalance(() => formatedBalance || "Balance not obtained");
     } catch (error) {
       console.log("Error trying to get the balance: ", error);
     }
@@ -58,7 +53,7 @@ export const useBalance = (args: UseBalanceArgs) => {
 
   useEffect(() => {
     getBalance();
-  }, []);
+  }, [getBalance]);
 
   return { tokenBalance };
 };

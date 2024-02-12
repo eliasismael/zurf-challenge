@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
-export const useDarkMode = (): [
-  string,
-  React.Dispatch<React.SetStateAction<string>>
-] => {
-  const [theme, setTheme] = useState<string>(
+type StateSetter<T> = React.Dispatch<React.SetStateAction<T>>;
+
+export const useDarkMode = (): [string, StateSetter<string>] => {
+  const [theme, setTheme] = useState(
     typeof window !== "undefined" ? localStorage.theme : "dark"
   );
   const colorTheme = theme === "dark" ? "light" : "dark";
@@ -18,7 +17,7 @@ export const useDarkMode = (): [
     if (typeof window !== "undefined") {
       localStorage.setItem("theme", theme);
     }
-  }, [theme]);
+  }, [theme, colorTheme]);
 
   return [colorTheme, setTheme];
 };

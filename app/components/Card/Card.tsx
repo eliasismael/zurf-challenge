@@ -1,16 +1,23 @@
 "use client";
-import { getCoinPriceInUsd } from "@/app/helpers/getCoinPriceInUsd";
+// Hooks
 import { useBalance } from "@/app/hooks/useBalance";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+// Components
 import { Item } from "./components/Item";
 import { ButtonCopyAddress } from "./components/ButtonCopyAddress";
+import { Spinner } from "../Spinner/Spinner";
+import {
+  ITokenPriceContext,
+  TokenPriceContext,
+} from "@/app/context/TokenPrice";
 
 export const Card: React.FC = () => {
-  const { address, chainId } = useWeb3ModalAccount();
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
   const { tokenBalance } = useBalance({ token: "ZRF" });
-
-  const [tokenPriceInUsd, setTokenPriceInUsd] = useState("");
+  const { tokenPriceInUsd } = useContext(
+    TokenPriceContext
+  ) as ITokenPriceContext;
   const [tokenTotalValue, setTokenTotalValue] = useState<number | string>(0);
 
   const copyAddress = () => {
@@ -20,23 +27,16 @@ export const Card: React.FC = () => {
   };
 
   useEffect(() => {
-    const getPrice = async () => {
-      const zrfPrice = await getCoinPriceInUsd({ id: "zurf" });
-      setTokenPriceInUsd(zrfPrice);
-    };
+    const value = (Number(tokenBalance) * Number(tokenPriceInUsd)).toFixed(2);
+    setTokenTotalValue(value);
+  }, [tokenPriceInUsd, tokenBalance]);
 
-    getPrice();
-
-    setTokenTotalValue(() => {
-      const value = Number(tokenBalance) * Number(tokenPriceInUsd);
-      return value.toFixed(2);
-    });
-  }, [address]);
+  const currentNetwork = chainId === 137 ? "Polygon Mainnet" : "Unknown";
 
   const ITEMS = [
     {
       item: "Current Network:",
-      value: chainId === 137 ? "Polygon Mainnet" : "Unknown",
+      value: currentNetwork,
     },
     {
       item: "Address:",
@@ -56,14 +56,27 @@ export const Card: React.FC = () => {
     },
   ];
 
+  if (!address)
+    return (
+      <div className="animate-pulse bg-gray-200 dark:bg-gray-800 rounded-xl p-4 shadow-xl shadow-gray-300 dark:shadow-gray-900 w-80 h-60 grid place-content-center">
+        <ul className="flex flex-col items-start gap-2 text-gray-900 dark:text-white">
+          {ITEMS.map((item) => (
+            <Item key={item.item} item={item.item} value="" />
+          ))}
+        </ul>
+        {/* <Spinner size="w-10 h-10" />; */}
+      </div>
+    );
+
   return (
-    <div className=" bg-gray-100 dark:bg-gray-800 rounded-lg p-4 shadow-lg shadow-gray-300 dark:shadow-gray-900">
-      <ul className="flex flex-col gap-2 text-gray-900 dark:text-white">
+    <div className="duration-300 bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-xl shadow-gray-300 dark:shadow-gray-900 w-80">
+      <ul className="flex flex-col items-start gap-2 text-gray-900 dark:text-white">
         {ITEMS.map((item) => {
           const optionalProps =
             item.item === "Address:"
               ? {
-                  liStyle: "relative w-full border flex items-center",
+                  liStyle:
+                    "relative w-full flex items-baseline h-8 border-b border-gray-300 dark:border-gray-500",
                   additionalElements: (
                     <ButtonCopyAddress onClick={copyAddress} />
                   ),
@@ -72,6 +85,7 @@ export const Card: React.FC = () => {
 
           return (
             <Item
+              key={item.item}
               item={item.item}
               value={item.value}
               liStyle={optionalProps?.liStyle}

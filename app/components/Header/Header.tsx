@@ -9,16 +9,16 @@ export const Header = () => {
   const [colorTheme, setTheme] = useDarkMode();
 
   return (
-    <header className="sticky top-0 z-50 flex items-center gap-4 w-full h-20 bg-gradient-to-r from-white from-25% via-main/20 via-90% to-white dark:bg-gradient-to-r dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 dark:text-main text-black p-2 px-6 border-b-2 border-main">
-      <Link href={"./"}>
-        <Image
-          src={mainLogo}
-          alt="Zurf"
-          width={50}
-          height={50}
-          className="rounded-full"
-        />
-      </Link>
+    <header className="duration-300 sticky top-0 z-50 flex items-center gap-4 w-full h-20 bg-gradient-to-r from-white from-25% via-main/20 via-90% to-white dark:bg-gradient-to-r dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 dark:text-main text-black px-10 border-b-2 border-main">
+      {/* <Link href={"./"}> */}
+      <Image
+        src={mainLogo}
+        alt="Zurf"
+        width={50}
+        height={50}
+        className="rounded-full"
+      />
+      {/* </Link> */}
 
       <h1 className="text-2xl font-medium hidden sm:flex">
         Zurf Social Challenge
