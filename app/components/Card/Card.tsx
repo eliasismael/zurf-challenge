@@ -1,19 +1,8 @@
 "use client";
-// Hooks
-import { useBalance } from "@/app/hooks/useBalance";
-import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
-import { useContext, useEffect, useState } from "react";
 // Components
 import { Item } from "./components/Item";
-import { ButtonCopyAddress } from "./components/ButtonCopyAddress";
 import { Spinner } from "../Spinner/Spinner";
-// Context
-import {
-  ITokenPriceContext,
-  TokenPriceContext,
-} from "@/app/context/TokenPrice";
 // Constants
-import { CHAINS_DATA } from "@/constants/chainsData";
 import { POLYGON_CHAIN_ID } from "@/constants/polygonData";
 import { useCardComponent } from "./hook/useCardComponet";
 

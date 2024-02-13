@@ -50,7 +50,7 @@ export const useBalance = ({ token }: UseBalanceArgs) => {
 
   useEffect(() => {
     if (isConnected) getBalance();
-  }, [getBalance]);
+  }, [getBalance, isConnected]);
 
   return { tokenBalance };
 };
