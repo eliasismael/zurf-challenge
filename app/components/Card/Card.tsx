@@ -87,7 +87,10 @@ export const Card: React.FC = (): JSX.Element => {
           if (chainId !== 137 && index === 2) {
             stopMapping = true;
             return (
-              <span className="text-gray-400 dark:text-gray-500 text-md text-center my-2 mx-auto">
+              <span
+                key={"switch-network-message"}
+                className="text-gray-400 dark:text-gray-500 text-md text-center my-2 mx-auto"
+              >
                 Switch to Polygon to see $ZRF data
               </span>
             );
