@@ -32,12 +32,7 @@ export const useBalance = ({ token }: UseBalanceArgs) => {
       : [USDT_TOKEN_ADDRESS, USDT_CONTRACT_ABI];
 
   const getBalance = async () => {
-    // if (!isConnected) throw new Error("User disconnected");
-    if (chainId !== POLYGON_CHAIN_ID) {
-      // setTokenbalance(0);
-      return;
-    }
-    // throw new Error("Switch to polygon network");
+    if (chainId !== POLYGON_CHAIN_ID) return;
 
     try {
       const ethersProvider = new W3P(walletProvider as ExternalProv);

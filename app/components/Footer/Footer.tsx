@@ -3,7 +3,7 @@ export const Footer = () => (
     <ul className="w-full text-black dark:text-white text-xs items-center sm:text-sm font-medium flex flex-col gap-2 sm:flex-row sm:gap-20 justify-center">
       <li>Made by Elías Pereyra</li>
       <li>Zurf Social</li>
-      <li>2024 All rights reserved</li>
+      <li>{new Date().getFullYear()} All rights reserved</li>
     </ul>
   </footer>
 );

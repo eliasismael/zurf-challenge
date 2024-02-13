@@ -4,8 +4,6 @@ import "./globals.css";
 
 import { Web3ModalProvider } from "../context/Web3Modal";
 import { TokenPriceContextProvider } from "./context/TokenPrice";
-import { Suspense } from "react";
-import Loading from "./loading";
 
 const roboto = Roboto({
   weight: "400",
@@ -23,12 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body className={roboto.className}>
         <TokenPriceContextProvider>
-          <Web3ModalProvider>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </Web3ModalProvider>
+          <Web3ModalProvider>{children}</Web3ModalProvider>
         </TokenPriceContextProvider>
       </body>
     </html>

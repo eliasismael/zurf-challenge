@@ -1,3 +1,4 @@
+// Context for access the token price
 "use client";
 import { ReactNode, useState, createContext, useEffect } from "react";
 import { getCoinPriceInUsd } from "../helpers/getCoinPriceInUsd";

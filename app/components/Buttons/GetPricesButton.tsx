@@ -1,12 +1,18 @@
 "use client";
+// Hooks
 import { useContext, useState } from "react";
-import { Button } from "./components/Button";
-import { getCoinPriceInUsd } from "@/app/helpers/getCoinPriceInUsd";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
+// Components
+import { Button } from "./components/Button";
+// Helpers
+import { getCoinPriceInUsd } from "@/app/helpers/getCoinPriceInUsd";
+// Context
 import {
   ITokenPriceContext,
   TokenPriceContext,
 } from "@/app/context/TokenPrice";
+// Constants
+import { POLYGON_CHAIN_ID } from "@/constants/polygonData";
 
 interface GetPricesButtonProps {
   tokenId: "zurf" | "tether";
@@ -32,7 +38,7 @@ export const GetPricesButton: React.FC<GetPricesButtonProps> = (props) => {
     }, 1000);
   };
 
-  if (!address || chainId !== 137) return;
+  if (!address || chainId !== POLYGON_CHAIN_ID) return;
 
   return (
     <Button

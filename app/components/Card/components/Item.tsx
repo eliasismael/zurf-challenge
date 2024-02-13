@@ -4,8 +4,8 @@ import { ReactNode } from "react";
 interface ItemProps {
   item: string;
   value: string;
-  liStyle?: string;
-  addiotionalElements?: ReactNode;
+  liStyle?: string | null;
+  addiotionalElements?: ReactNode | ReactNode[] | null;
 }
 
 export const Item: React.FC<ItemProps> = (props) => (

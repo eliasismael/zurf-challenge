@@ -1,14 +1,16 @@
 "use client";
+// Hooks
 import { useDarkMode } from "@/app/hooks/useDarkMode";
-import mainLogo from "../../../public/main-logo.jpg";
-import Image from "next/image";
 import { useWeb3ModalTheme } from "@web3modal/ethers5/react";
 import { useEffect } from "react";
+// Logo
+import mainLogo from "../../../public/main-logo.jpg";
+// Components
+import Image from "next/image";
 
 export const Header = () => {
   const [colorTheme, setTheme] = useDarkMode();
-  const { themeMode, themeVariables, setThemeMode, setThemeVariables } =
-    useWeb3ModalTheme();
+  const { themeMode, setThemeMode, setThemeVariables } = useWeb3ModalTheme();
 
   useEffect(() => {
     setThemeMode(colorTheme as typeof themeMode);
@@ -37,10 +39,7 @@ export const Header = () => {
       </h2>
 
       {/* Buttons */}
-      <div
-        id="connect-button__container"
-        className="ml-auto rounded-full shadow-md shadow-main/50"
-      >
+      <div className="ml-auto rounded-full shadow-md shadow-main/50">
         <w3m-button />
       </div>
 
@@ -77,14 +76,6 @@ export const Header = () => {
           />
         </svg>
       )}
-      {/* 
-      <Image
-        src={menu}
-        alt="menu"
-        width={25}
-        height={25}
-        className="rounded-ful text-white dark:text-white"
-      /> */}
     </header>
   );
 };
