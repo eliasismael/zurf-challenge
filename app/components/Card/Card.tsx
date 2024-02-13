@@ -55,14 +55,15 @@ export const Card: React.FC = (): JSX.Element => {
     setTokenTotalValue(value);
   }, [tokenPriceInUsd, tokenBalance]);
 
-  const [isAddress, setIsAddress] = useState<boolean| undefined>(undefined);
+  const [isAddress, setIsAddress] = useState<boolean | undefined>(undefined);
+
   useEffect(() => {
     if (address) {
       setIsAddress(true);
     } else {
-      setIsAddress(false)
+      setIsAddress(false);
     }
-  }, []);
+  }, [address]);
 
   if (isAddress === undefined) return <Spinner size="w-10 h-10" />;
 
