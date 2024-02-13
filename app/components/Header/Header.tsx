@@ -1,16 +1,26 @@
 "use client";
 import { useDarkMode } from "@/app/hooks/useDarkMode";
 import mainLogo from "../../../public/main-logo.jpg";
-import menu from "../../../public/icons/menu.png";
 import Image from "next/image";
-import Link from "next/link";
+import { useWeb3ModalTheme } from "@web3modal/ethers5/react";
+import { useEffect } from "react";
 
 export const Header = () => {
   const [colorTheme, setTheme] = useDarkMode();
+  const { themeMode, themeVariables, setThemeMode, setThemeVariables } =
+    useWeb3ModalTheme();
+
+  useEffect(() => {
+    setThemeMode(colorTheme as typeof themeMode);
+    setThemeVariables({
+      "--w3m-accent": `black`,
+      "--w3m-color-mix": "rgb(82,237,236)",
+      "--w3m-color-mix-strength": 40,
+    });
+  }, [colorTheme]);
 
   return (
     <header className="duration-300 sticky top-0 z-50 flex items-center gap-4 w-full h-20 bg-gradient-to-r from-white from-25% via-main/20 via-90% to-white dark:bg-gradient-to-r dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 dark:text-main text-black px-10 border-b-2 border-main">
-      {/* <Link href={"./"}> */}
       <Image
         src={mainLogo}
         alt="Zurf"
@@ -18,17 +28,19 @@ export const Header = () => {
         height={50}
         className="rounded-full"
       />
-      {/* </Link> */}
 
       <h1 className="text-2xl font-medium hidden sm:flex">
         Zurf Social Challenge
       </h1>
-      <h2 className="opacity-80 text-gray-500 text-xl text-center">
+      <h2 className="opacity-80 text-gray-500 text-xs sm:text-xl text-center">
         Made by Elías Pereyra
       </h2>
 
       {/* Buttons */}
-      <div className="ml-auto">
+      <div
+        id="connect-button__container"
+        className="ml-auto rounded-full shadow-md shadow-main/50"
+      >
         <w3m-button />
       </div>
 
@@ -65,14 +77,14 @@ export const Header = () => {
           />
         </svg>
       )}
-
+      {/* 
       <Image
         src={menu}
         alt="menu"
         width={25}
         height={25}
         className="rounded-ful text-white dark:text-white"
-      />
+      /> */}
     </header>
   );
 };

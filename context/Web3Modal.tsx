@@ -31,11 +31,18 @@ const metadata = {
   icons: ["https://avatars.mywebsite.com/"],
 };
 
+// const themeMode = localStorage.theme || "dark";
 createWeb3Modal({
   ethersConfig: defaultConfig({ metadata }),
   chains: [mainnet, polygon],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  // themeMode: "dark",
+  // themeVariables: {
+  //   "--w3m-accent": "black",
+  //   "--w3m-color-mix": "rgb(82,237,236)",
+  //   "--w3m-color-mix-strength": 40,
+  // },
 });
 
 export function Web3ModalProvider({ children }: { children: ReactNode }) {

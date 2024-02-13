@@ -14,7 +14,7 @@ interface GetPricesButtonProps {
 
 export const GetPricesButton: React.FC<GetPricesButtonProps> = (props) => {
   const { tokenId } = props;
-  const { address } = useWeb3ModalAccount();
+  const { address, chainId } = useWeb3ModalAccount();
 
   const { setTokenPriceInUsd } = useContext(
     TokenPriceContext
@@ -32,7 +32,7 @@ export const GetPricesButton: React.FC<GetPricesButtonProps> = (props) => {
     }, 1000);
   };
 
-  if (!address) return;
+  if (!address || chainId !== 137) return;
 
   return (
     <Button

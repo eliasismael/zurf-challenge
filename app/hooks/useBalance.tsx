@@ -26,22 +26,24 @@ export const useBalance = ({ token }: UseBalanceArgs) => {
   const { Contract, providers, utils } = ethers;
   const W3P = providers.Web3Provider;
 
-  const contractData = {
-    address: token === "ZRF" ? ZRF_TOKEN_ADDRESS : USDT_TOKEN_ADDRESS,
-    abi: token === "ZRF" ? ZRF_CONTRACT_ABI : USDT_CONTRACT_ABI,
-  };
-  const { address, abi } = contractData;
+  const [contractAddress, abi] =
+    token === "ZRF"
+      ? [ZRF_TOKEN_ADDRESS, ZRF_CONTRACT_ABI]
+      : [USDT_TOKEN_ADDRESS, USDT_CONTRACT_ABI];
 
   const getBalance = async () => {
-    if (!isConnected) throw new Error("User disconnected");
-    if (chainId !== POLYGON_CHAIN_ID)
-      throw new Error("Switch to polygon network");
+    // if (!isConnected) throw new Error("User disconnected");
+    if (chainId !== POLYGON_CHAIN_ID) {
+      // setTokenbalance(0);
+      return;
+    }
+    // throw new Error("Switch to polygon network");
 
     try {
       const ethersProvider = new W3P(walletProvider as ExternalProv);
       const signer = ethersProvider.getSigner();
 
-      const tokenContract = new Contract(address, abi, signer);
+      const tokenContract = new Contract(contractAddress, abi, signer);
       const tokenBalance = await tokenContract.balanceOf(userAddres);
       const formatedBalance = utils.formatUnits(tokenBalance, 18);
 
@@ -52,7 +54,7 @@ export const useBalance = ({ token }: UseBalanceArgs) => {
   };
 
   useEffect(() => {
-    getBalance();
+    if (isConnected) getBalance();
   }, [getBalance]);
 
   return { tokenBalance };
