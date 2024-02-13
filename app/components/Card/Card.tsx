@@ -20,6 +20,8 @@ export const Card: React.FC = (): JSX.Element => {
 
   const { address, chainId, isConnected } = useWeb3ModalAccount();
   const { tokenBalance } = useBalance({ token: "ZRF" });
+  // To handle loading view
+  const [isAddress, setIsAddress] = useState<boolean | undefined>(undefined);
 
   const [tokenTotalValue, setTokenTotalValue] = useState<number | string>(0);
 
@@ -55,25 +57,14 @@ export const Card: React.FC = (): JSX.Element => {
     setTokenTotalValue(value);
   }, [tokenPriceInUsd, tokenBalance]);
 
-  const [isAddress, setIsAddress] = useState<boolean | undefined>(undefined);
-
   useEffect(() => {
-    if (address) {
-      setIsAddress(true);
-    } else {
-      setIsAddress(false);
-    }
+    if (address) setIsAddress(true);
+    else setIsAddress(false);
   }, [address]);
 
   if (isAddress === undefined) return <Spinner size="w-10 h-10" />;
-
-  if (!isAddress)
+  if (isAddress === false)
     return <p className="text-3xl text-gray-500">Connect your wallet</p>;
-  // return (
-  // <div className="animate-pulse flex items-center justify-center w-80 h-80 duration-300 bg-gray-100 dark:bg-gray-800 rounded-xl shadow-xl shadow-gray-300 dark:shadow-gray-900 ">
-  //   <Spinner size="w-16 h-16" />;
-  // </div>
-  // );
 
   let stopMapping = false;
 
@@ -81,7 +72,7 @@ export const Card: React.FC = (): JSX.Element => {
     <div className="duration-300 bg-gray-100 dark:bg-gray-800 rounded-xl p-4 shadow-xl shadow-gray-300 dark:shadow-gray-900 w-80">
       <ul className="flex flex-col items-start gap-2 text-gray-900 dark:text-white">
         {ITEMS.map((item, index) => {
-          if (stopMapping) return null;
+          if (stopMapping) return;
           const optionalProps =
             item.item === "Address:"
               ? {
